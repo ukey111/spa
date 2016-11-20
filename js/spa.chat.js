@@ -46,6 +46,19 @@ spa.chat = (function () {
 
     // --- public method start
     // publicmethod/configModule/start
+    // 用途：spa.chat.configModule({ slider_open_em : 18 });
+    // 目的：初期化前にモジュールを構成する
+    // 引数：
+    //  * set_chat_anchor-オープンまたはクローズ状態を示すように
+    //    URIアンカーを変更するコールバック。このコールバックは要求された状態を
+    //    満たせない場合にはfalseを返さなければいけない。
+    //  * chat_model-インスタントメッセージングと
+    //    やり取りするメソッドを提供するチャットモデルオブジェクト。
+    //  * people_model-モデルが保持する人々のリストを管理する
+    //    メソッドを提供するピープルモデルオブジェクト。
+    //  * slider_*構成。すべてオプションのスカラー
+    //    完全なリストはmapConfig.settable_mapを参照。
+    //    用例：slider_open_emはem単位のオープン時の高さ
     configModule = function ( input_map ) {
         spa.util.setConfigMap({
             input_map : input_map,

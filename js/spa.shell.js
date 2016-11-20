@@ -207,19 +207,10 @@ spa.shell = (function () {
     // --- public method start ---
     // public method/initModule/start
     initModule = function ( $container ) {
-        $.uriAnchor.configModule({
-            schema_map : configMap.anchor_schema_map
-        });
-
-        // 機能モジュールを構成して初期化する
-        spa.chat.configModule( {} );
-        spa.chat.initModule( jqueryMap.$chat );
-        $(window)
-            .bind( 'hashchange', onHashchange )
-            .trigger( 'hashchange' );
         stateMap.$container = $container;
         $container.html( configMap.main_html );
         setJqueryMap();
+
 
         stateMap.is_chat_retracted = true;
 
@@ -227,8 +218,20 @@ spa.shell = (function () {
             .attr( 'title', configMap.chat_retract_title )
             .click( onClickChat );
 
-        setTimeout( function () {toggleChat( true );}, 3000 );
-        setTimeout( function () {toggleChat( false );}, 8000 );
+        // setTimeout( function () {toggleChat( true );}, 3000 );
+        // setTimeout( function () {toggleChat( false );}, 8000 );
+
+        $.uriAnchor.configModule({
+            schema_map : configMap.anchor_schema_map
+        });
+
+        // 機能モジュールを構成して初期化する
+        spa.chat.configModule( {} );
+        spa.chat.initModule( jqueryMap.$chat );
+
+        $(window)
+            .bind( 'hashchange', onHashchange )
+            .trigger( 'hashchange' );
     };
     // public method/initModule/end
     return { initModule : initModule };
