@@ -74,7 +74,8 @@ spa.chat = (function () {
         jqueryMap = {},
 
         setJqueryMap, getEmSize, setPxSizes, setSliderPosition,
-        onClickToggle, configModule, initModule
+        onClickToggle, configModule, initModule,
+        removeSlider, handleResize
         ;
     //--- module scope var end ---
 
@@ -241,11 +242,32 @@ spa.chat = (function () {
     */
     // publicmethod/initMOdule/end
 
+    // publicmethod/removeSlider/start
+    removeSlider = function () {
+        // 初期化と状態を解除する
+        // DOMコンテナを削除する。これはイベントのバインディングも削除する。
+        if ( jqueryMap.$slider ) {
+            jqueryMap.$slider.remove();
+            jqueryMap = {};
+        }
+        stateMap.$append_target = null;
+        stateMap.position_type = 'closed';
+
+        // 主な構成を解除する
+        configMap.chat_model      = null;
+        configMap.people_model    = null;
+        configMap.set_chat_anchor = null;
+        return true;
+    };
+    // publicmethod/removeSlider/end
+
     // return publicmethod
     return {
         setSliderPosition: setSliderPosition,
         configModule     : configModule,
-        initModule       : initModule
+        initModule       : initModule,
+        removeSlider     : removeSlider,
+        handleResize     : handleResize
     };
     // --- public method end
 
