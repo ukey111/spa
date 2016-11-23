@@ -28,7 +28,7 @@ spa.chat = (function () {
                     + '<div class="spa-chat-sizer">'
                         + '<div class="spa-chat-msgs"></div>'
                         + '<div class="spa-chat-box">'
-                            + '<input type="text">'
+                            + '<input type="text" />'
                             + '<div>send</div>'
                         + '</div>'
                     + '</div>'
@@ -115,7 +115,7 @@ spa.chat = (function () {
         var px_per_em, opened_height_em;
         px_per_em = getEmSize( jqueryMap.$slider.get(0) );
 
-        opened_height_em = configMap.slider_open_em;
+        opened_height_em = configMap.slider_opened_em;
 
         stateMap.px_per_em = px_per_em;
         stateMap.slider_closed_px = configMap.slider_closed_em * px_per_em;
@@ -139,7 +139,7 @@ spa.chat = (function () {
         // アニメーションパラメータを用意する
         switch ( position_type ){
             case 'opened' :
-                height_px = stateMap.slider_opened_em;
+                height_px = stateMap.slider_opened_px;
                 animate_time = configMap.slider_open_time;
                 slider_title = configMap.slider_opened_title;
                 toggle_text = '=';
@@ -174,11 +174,22 @@ spa.chat = (function () {
                 if ( callback ) { callback( jqueryMap.$slider ); }
             }
         );
+        return true;
     };
     // publicmethod/setSliderPosition/end
     // --- DOM method end
 
     // --- event handler start
+    onClickToggle = function ( event ) {
+        var set_chat_anchor = configMap.set_chat_anchor;
+        if ( stateMap.position_type === 'opened' ) {
+            set_chat_anchor( 'closed' );
+        }
+        else if ( stateMap.position_type === 'closed' ){
+            set_chat_anchor( 'opened' );
+        }
+        return false;
+    };
     // --- event handler end
 
     // --- public method start
