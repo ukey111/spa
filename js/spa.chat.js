@@ -53,10 +53,13 @@ spa.chat = (function () {
 
             slider_open_time   : 250,
             slider_close_time  : 250,
-            slider_opened_em   : 16,
+            slider_opened_em   : 18,
             slider_closed_em   : 2,
             slider_opened_title: 'Click to close',
             slider_closed_title: 'Click to open',
+
+            slider_opened_min_em : 10,
+            window_height_min_em : 20,
 
             chat_model     : null,
             people_model   : null,
@@ -74,7 +77,8 @@ spa.chat = (function () {
         jqueryMap = {},
 
         setJqueryMap, getEmSize, setPxSizes, setSliderPosition,
-        onClickToggle, configModule, initModule
+        onClickToggle, configModule, initModule,
+        removeSlider, handleResize
         ;
     //--- module scope var end ---
 
@@ -112,10 +116,19 @@ spa.chat = (function () {
 
     // DOM method/setPxSizes/start
     setPxSizes = function () {
-        var px_per_em, opened_height_em;
+        var px_per_em, window_height_em, opened_height_em;
         px_per_em = getEmSize( jqueryMap.$slider.get(0) );
+        window_height_em = Math.floor(
+            ( $(window).height() / px_per_em ) + 0.5
+        );
 
+        /*
         opened_height_em = configMap.slider_opened_em;
+        */
+        opened_height_em
+            = window_height_em > configMap.window_height_min_em
+            ? configMap.slider_opened_em
+            : configMap.slider_opened_min_em;
 
         stateMap.px_per_em = px_per_em;
         stateMap.slider_closed_px = configMap.slider_closed_em * px_per_em;
@@ -193,6 +206,20 @@ spa.chat = (function () {
     // --- event handler end
 
     // --- public method start
+
+    // publicmethod/handleResize/start
+    handleResize = function () {
+        //スライダーコンテナがなければ何もしない
+        if ( ! jqueryMap.$slider ) { return false; }
+
+        setPxSizes();
+        if ( stateMap.position_type === 'opened' ){
+            jqueryMap.$slider.css({ height : stateMap.slider_opened_px });
+        }
+        return true;
+    };
+    // publicmethod/handleResize/end
+
     // publicmethod/configModule/start
     // 用途：spa.chat.configModule({ slider_open_em : 18 });
     // 目的：初期化前にモジュールを構成する
@@ -241,11 +268,32 @@ spa.chat = (function () {
     */
     // publicmethod/initMOdule/end
 
+    // publicmethod/removeSlider/start
+    removeSlider = function () {
+        // 初期化と状態を解除する
+        // DOMコンテナを削除する。これはイベントのバインディングも削除する。
+        if ( jqueryMap.$slider ) {
+            jqueryMap.$slider.remove();
+            jqueryMap = {};
+        }
+        stateMap.$append_target = null;
+        stateMap.position_type = 'closed';
+
+        // 主な構成を解除する
+        configMap.chat_model      = null;
+        configMap.people_model    = null;
+        configMap.set_chat_anchor = null;
+        return true;
+    };
+    // publicmethod/removeSlider/end
+
     // return publicmethod
     return {
         setSliderPosition: setSliderPosition,
         configModule     : configModule,
-        initModule       : initModule
+        initModule       : initModule,
+        removeSlider     : removeSlider,
+        handleResize     : handleResize
     };
     // --- public method end
 
