@@ -49,7 +49,7 @@ spa.shell = (function () {
             anchor_map       : {},
             is_chat_retracted: true
         */
-        stateMap = { 
+        stateMap = {
             $container  : undefined,
             anchor_map  : {},
             resize_idto : undefined
