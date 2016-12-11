@@ -119,7 +119,7 @@ spa.model = (function (){
                 name   : name
             });
 
-            sio.on( 'userupdate', 'completeLogin' );
+            sio.on( 'userupdate', completeLogin );
 
             sio.emit( 'adduser', {
                 cid : stateMap.user.cid,
@@ -135,7 +135,7 @@ spa.model = (function (){
             is_removed    = removePerson( user );
             stateMap.user = stateMap.anon_user;
 
-            $.geventl.publish( 'spa-logout', [ user ] );
+            $.gevent.publish( 'spa-logout', [ user ] );
             return is_removed;
         };
 
@@ -149,7 +149,7 @@ spa.model = (function (){
         /*
         get_cid_map : function () { return stateMap.people_cid_map; }
         */
-    }()};
+    }());
 
     initModule = function () {
         var i, people_list, person_map;
