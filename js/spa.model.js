@@ -142,7 +142,7 @@ spa.model = (function (){
             clearPeopleDb();
 
             $.gevent.publish( 'spa-logout', [ user ] );
-            return is_removed;
+            // return is_removed;
         };
 
         return {

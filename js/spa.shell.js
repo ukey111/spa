@@ -231,7 +231,7 @@ spa.shell = (function () {
         // スライダーの変更が拒否された場合にアンカーを元に戻す処理を開始
         if ( ! is_ok ){
             if ( anchor_map_previous ){
-                $.uniAnchor.setAnchor( anchor_map_previous, null, true );
+                $.uriAnchor.setAnchor( anchor_map_previous, null, true );
                 stateMap.anchor_map = anchor_map_previous;
             } else {
                 delete anchor_map_proposed.chat;
