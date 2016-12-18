@@ -24,7 +24,9 @@ spa.model = (function (){
                 is_connected  : false
             },
 
-            isFakeData = true,
+            // fakeデータの使用有無
+            isFakeData = false,
+            // isFakeData = true,
             personProto, makeCid, clearPeopleDb, completeLogin,
             makePerson, removePerson, people, chat, initModule;
         personProto = {
