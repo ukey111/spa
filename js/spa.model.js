@@ -184,7 +184,7 @@ spa.model = (function (){
                 }
 
                 // ユーザを特定したら、css_mapを更新して残りを飛ばす
-                if ( stateMap.user && stateMap.user.id === person_map.id ) {
+                if ( stateMap.user && stateMap.user.id === person_map._id ) {
                     stateMap.user.css_map = person_map.css_map;
                     continue PERSON;
                 }
